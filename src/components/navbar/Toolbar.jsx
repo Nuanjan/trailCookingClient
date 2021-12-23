@@ -11,19 +11,32 @@ import Menu from "@material-ui/core/Menu";
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import MailIcon from "@material-ui/icons/Mail";
-import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
+import { Link } from "react-router-dom";
+import Button from "@mui/material/Button";
 
 const styles = (theme) => ({
   grow: {
     flexGrow: 1,
+  },
+  MuiAppBarColorWhite: {
+    backgroundColor: "white",
+    boxShadow: "none",
+    color: "#262416",
+    display: "flex",
   },
   menuButton: {
     marginRight: theme.spacing(2),
   },
   title: {
     display: "none",
+    padding: "2%",
+    [theme.breakpoints.up("sm")]: {
+      display: "block",
+    },
+  },
+  link: {
+    color: "#262416",
     [theme.breakpoints.up("sm")]: {
       display: "block",
     },
@@ -58,7 +71,7 @@ const styles = (theme) => ({
     transition: theme.transitions.create("width"),
     width: "100%",
     [theme.breakpoints.up("md")]: {
-      width: 200,
+      width: 250,
     },
   },
   sectionDesktop: {
@@ -111,7 +124,7 @@ class ToolbarComponent extends React.Component {
     const isMenuOpen = Boolean(this.state.anchorEl);
     const isMobileMenuOpen = Boolean(this.state.mobileMoreAnchorEl);
 
-    const menuId = "primary-search-account-menu";
+    const menuId = "secondary-search-account-menu";
     const renderMenu = (
       <Menu
         anchorEl={this.state.anchorEl}
@@ -138,22 +151,6 @@ class ToolbarComponent extends React.Component {
         open={isMobileMenuOpen}
         onClose={this.handleMobileMenuClose}
       >
-        <MenuItem>
-          <IconButton aria-label="show 4 new mails" color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <MailIcon />
-            </Badge>
-          </IconButton>
-          <p>Messages</p>
-        </MenuItem>
-        <MenuItem>
-          <IconButton aria-label="show 11 new notifications" color="inherit">
-            <Badge badgeContent={11} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-          <p>Notifications</p>
-        </MenuItem>
         <MenuItem onClick={this.handleProfileMenuOpen}>
           <IconButton
             aria-label="account of current user"
@@ -170,15 +167,25 @@ class ToolbarComponent extends React.Component {
 
     return (
       <div className={classes.grow}>
-        <AppBar position="static">
+        <AppBar position="static" className={classes.MuiAppBarColorWhite}>
           <Toolbar>
-            <Typography className={classes.title} variant="h6" noWrap>
-              Material-UI
+            <Typography className={classes.title} variant="h4" noWrap>
+              TrailCooking
             </Typography>
+            <Link
+              style={{ textDecoration: "none", padding: "20px" }}
+              to={"/recipes"}
+            >
+              <Typography className={classes.link} variant="h6" noWrap>
+                All Recipes
+              </Typography>
+            </Link>
+            <Link style={{ textDecoration: "none" }} to={"/myRecipes"}>
+              <Typography className={classes.link} variant="h6" noWrap>
+                My Recipes
+              </Typography>
+            </Link>
             <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
               <InputBase
                 placeholder="Search…"
                 classes={{
@@ -187,22 +194,11 @@ class ToolbarComponent extends React.Component {
                 }}
                 inputProps={{ "aria-label": "search" }}
               />
+              <div className={classes.searchIcon}></div>
+              <SearchIcon style={{ fill: "#EEB25C" }} />
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              <IconButton aria-label="show 4 new mails" color="inherit">
-                <Badge badgeContent={4} color="secondary">
-                  <MailIcon />
-                </Badge>
-              </IconButton>
-              <IconButton
-                aria-label="show 17 new notifications"
-                color="inherit"
-              >
-                <Badge badgeContent={17} color="secondary">
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
               <IconButton
                 edge="end"
                 aria-label="account of current user"
@@ -225,6 +221,12 @@ class ToolbarComponent extends React.Component {
                 <MoreIcon />
               </IconButton>
             </div>
+            <Button
+              variant="contained"
+              style={{ marginLeft: "10px", backgroundColor: "#90B274" }}
+            >
+              Sign Out
+            </Button>
           </Toolbar>
         </AppBar>
         {renderMobileMenu}

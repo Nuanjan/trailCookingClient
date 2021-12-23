@@ -1,65 +1,19 @@
-import { API_BASE_URL } from "../utils/constant";
+import axios from "axios";
 
-const request = (options) => {
-    const headers = new Headers({
-        'Content-Type': 'application/json',
-    })
-    
-    if(localStorage.getItem(ACCESS_TOKEN)) {
-        headers.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
-    }
+const API_URL = "http://localhost:8080/api/user/";
 
-    const defaults = {headers: headers};
-    options = Object.assign({}, defaults, options);
+class userApi {
+  login(user) {
+    return axios.post(API_URL + "login", user);
+  }
 
-    return fetch(options.url, options)
-    .then(response => 
-        response.json().then(json => {
-            if(!response.ok) {
-                return Promise.reject(json);
-            }
-            return json;
-        })
-    );
-};
+  register(user) {
+    return axios.post(API_URL + "register", user);
+  }
 
-export function login(loginRequest) {
-    return request({
-        url: API_BASE_URL + "/auth/signin",
-        method: 'POST',
-        body: JSON.stringify(loginRequest)
-    });
+  getLoggedInUser() {
+    return axios.get(API_URL + "me");
+  }
 }
 
-export function signup(signupRequest) {
-    return request({
-        url: API_BASE_URL + "/auth/signup",
-        method: 'POST',
-        body: JSON.stringify(signupRequest)
-    });
-}
-
-export function checkUsernameAvailability(username) {
-    return request({
-        url: API_BASE_URL + "/user/checkUsernameAvailability?username=" + username,
-        method: 'GET'
-    });
-}
-
-export function checkEmailAvailability(email) {
-    return request({
-        url: API_BASE_URL + "/user/checkEmailAvailability?email=" + email,
-        method: 'GET'
-    });
-}
-
-export function getCurrentUser() {
-    if(!localStorage.getItem(ACCESS_TOKEN)) {
-        return Promise.reject("No access token set.");
-    }
-
-    return request({
-        url: API_BASE_URL + "/user/me",
-        method: 'GET'
-    });
-}
+export default new userApi();
