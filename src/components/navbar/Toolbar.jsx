@@ -14,6 +14,7 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
+import Logout from "./Logout";
 
 const styles = (theme) => ({
   grow: {
@@ -87,7 +88,11 @@ const styles = (theme) => ({
     },
   },
 });
-
+const headerStyle = {
+  fontWeight: 600,
+  letterSpacing: "5px",
+  color: "#262416",
+};
 class ToolbarComponent extends React.Component {
   state = {
     achorEl: false,
@@ -176,7 +181,12 @@ class ToolbarComponent extends React.Component {
       <div className={classes.grow}>
         <AppBar position="static" className={classes.MuiAppBarColorWhite}>
           <Toolbar>
-            <Typography className={classes.title} variant="h4" noWrap>
+            <Typography
+              className={classes.title}
+              variant="h4"
+              noWrap
+              style={headerStyle}
+            >
               TrailCooking
             </Typography>
             <Link
@@ -204,7 +214,7 @@ class ToolbarComponent extends React.Component {
               />
               <div className={classes.searchIcon}></div>
               <SearchIcon
-                style={{ fill: "#EEB25C" }}
+                style={{ fill: "#EEB25C", cursor: "pointer" }}
                 onClick={this.saveSearchWord}
               />
             </div>
@@ -232,12 +242,7 @@ class ToolbarComponent extends React.Component {
                 <MoreIcon />
               </IconButton>
             </div>
-            <Button
-              variant="contained"
-              style={{ marginLeft: "10px", backgroundColor: "#90B274" }}
-            >
-              Sign Out
-            </Button>
+            <Logout />
           </Toolbar>
         </AppBar>
         {renderMobileMenu}

@@ -61,7 +61,6 @@ const Login = (props) => {
   const [error, setError] = useState([]);
 
   const onInputChange = (e) => {
-    console.log(user);
     setUser({ ...user, [e.target.name]: e.target.value });
   };
   const onLoginSubmit = (e) => {
@@ -71,6 +70,7 @@ const Login = (props) => {
       .then((res) => {
         localStorage.setItem("auth", res.data.body.accessToken);
         setAuthUser(res.data.body);
+        console.log(user);
         history.push("/recipes");
       })
       .catch((err) => {

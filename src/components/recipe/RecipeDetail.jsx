@@ -14,13 +14,6 @@ const imgDivStyle = {
   width: "100%",
 };
 const RecipeDetail = ({ recipe }) => {
-  //   const getNewDescription = () => {
-  //     let newDescription = "";
-  //     for (let i = 0; i <= 2; i++) {
-  //       newDescription += recipe.description[i]["display_text"] + " ";
-  //     }
-  //     return newDescription;
-  //   };
   const [recipeInfo, setRecipeInfo] = useState({
     recipeName: recipe.recipeName,
     description: recipe.description[0].display_text,
@@ -62,48 +55,50 @@ const RecipeDetail = ({ recipe }) => {
           )}
         </div>
       </div>
-      <form onSubmit={onSaveRecipe}>
-        <input
-          type="hidden"
-          name="recipeName"
-          onChange={onChangeInput}
-          value={recipeInfo.recipeName}
-        />
-        <input
-          type="hidden"
-          name="description"
-          value={recipeInfo.description}
-        />
-        <input
-          type="hidden"
-          onChange={onChangeInput}
-          name="link"
-          value={recipeInfo.link}
-        />
-        <input
-          type="hidden"
-          onChange={onChangeInput}
-          name="imgUrl"
-          value={recipeInfo.imgUrl}
-        />
+      <div style={{ display: "flex" }}>
+        <form onSubmit={onSaveRecipe}>
+          <input
+            type="hidden"
+            name="recipeName"
+            onChange={onChangeInput}
+            value={recipeInfo.recipeName}
+          />
+          <input
+            type="hidden"
+            name="description"
+            value={recipeInfo.description}
+          />
+          <input
+            type="hidden"
+            onChange={onChangeInput}
+            name="link"
+            value={recipeInfo.link}
+          />
+          <input
+            type="hidden"
+            onChange={onChangeInput}
+            name="imgUrl"
+            value={recipeInfo.imgUrl}
+          />
+          <Button
+            onChange={onChangeInput}
+            variant="contained"
+            type="submit"
+            style={{ marginLeft: "10px", backgroundColor: "#262416" }}
+          >
+            SAVE
+          </Button>
+        </form>
         <Button
-          onChange={onChangeInput}
           variant="contained"
-          type="submit"
-          style={{ marginLeft: "10px", backgroundColor: "#262416" }}
+          style={{
+            marginLeft: "10px",
+            backgroundColor: "#90B274",
+          }}
         >
-          SAVE
+          <Link to={"/recipes"}>HOME</Link>
         </Button>
-      </form>
-      <Button
-        variant="contained"
-        style={{
-          marginLeft: "10px",
-          backgroundColor: "#90B274",
-        }}
-      >
-        <Link to={"/recipes"}>HOME</Link>
-      </Button>
+      </div>
     </div>
   );
 };

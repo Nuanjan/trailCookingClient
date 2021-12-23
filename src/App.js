@@ -5,6 +5,7 @@ import Login from "./components/login/Login";
 import Recipe from "./components/recipe/Recipe";
 import userApi from "./components/api/userApi";
 import RecipeDetail from "./components/recipe/RecipeDetail";
+import MyRecipe from "./components/recipe/MyRecipe";
 
 function App() {
   const [authUser, setAuthUser] = useState({});
@@ -24,6 +25,9 @@ function App() {
           </Route>
           <Route path="/recipes/:id">
             <RecipeDetail recipe={recipe} />
+          </Route>
+          <Route path="/myRecipes">
+            <MyRecipe />
           </Route>
         </Switch>
       </div>
