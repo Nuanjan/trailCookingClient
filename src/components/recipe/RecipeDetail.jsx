@@ -14,16 +14,16 @@ const imgDivStyle = {
   width: "100%",
 };
 const RecipeDetail = ({ recipe }) => {
-  const getNewDescription = () => {
-    let newDescription = "";
-    for (const str of recipe.description) {
-      newDescription += str["display_text"] + "\n";
-    }
-    return newDescription;
-  };
+  //   const getNewDescription = () => {
+  //     let newDescription = "";
+  //     for (let i = 0; i <= 2; i++) {
+  //       newDescription += recipe.description[i]["display_text"] + " ";
+  //     }
+  //     return newDescription;
+  //   };
   const [recipeInfo, setRecipeInfo] = useState({
     recipeName: recipe.recipeName,
-    description: getNewDescription(),
+    description: recipe.description[0].display_text,
     link: recipe.link,
     imgUrl: recipe.imgUrl,
   });
@@ -48,7 +48,11 @@ const RecipeDetail = ({ recipe }) => {
           <h1>{recipe.recipeName}</h1>
           {recipe.description.map((text) => (
             <ul>
-              <li>{text["display_text"]}</li>
+              {text["display_text"] ? (
+                <li>{text["display_text"]}</li>
+              ) : (
+                <li>{text["text"]}</li>
+              )}
             </ul>
           ))}
           {recipe.link && (
@@ -65,7 +69,11 @@ const RecipeDetail = ({ recipe }) => {
           onChange={onChangeInput}
           value={recipeInfo.recipeName}
         />
-        <input type="hidden" name="description" value={getNewDescription()} />
+        <input
+          type="hidden"
+          name="description"
+          value={recipeInfo.description}
+        />
         <input
           type="hidden"
           onChange={onChangeInput}

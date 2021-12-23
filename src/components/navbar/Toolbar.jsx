@@ -92,6 +92,7 @@ class ToolbarComponent extends React.Component {
   state = {
     achorEl: false,
     MobileMoreAnchorEl: false,
+    searchWord: "",
   };
 
   handleProfileMenuOpen = (event) => {
@@ -118,12 +119,19 @@ class ToolbarComponent extends React.Component {
       mobileMoreAnchorEl: event.currentTarget,
     });
   };
-
+  onInputChange = (event) => {
+    this.setState({
+      searchWord: event.target.value,
+    });
+  };
+  saveSearchWord = () => {
+    this.props.onClickSearch(this.state.searchWord);
+    this.setState({ searchWord: "" });
+  };
   render() {
     const { classes } = this.props;
     const isMenuOpen = Boolean(this.state.anchorEl);
     const isMobileMenuOpen = Boolean(this.state.mobileMoreAnchorEl);
-
     const menuId = "secondary-search-account-menu";
     const renderMenu = (
       <Menu
@@ -164,7 +172,6 @@ class ToolbarComponent extends React.Component {
         </MenuItem>
       </Menu>
     );
-
     return (
       <div className={classes.grow}>
         <AppBar position="static" className={classes.MuiAppBarColorWhite}>
@@ -188,6 +195,7 @@ class ToolbarComponent extends React.Component {
             <div className={classes.search}>
               <InputBase
                 placeholder="Search…"
+                onChange={this.onInputChange}
                 classes={{
                   root: classes.inputRoot,
                   input: classes.inputInput,
@@ -195,7 +203,10 @@ class ToolbarComponent extends React.Component {
                 inputProps={{ "aria-label": "search" }}
               />
               <div className={classes.searchIcon}></div>
-              <SearchIcon style={{ fill: "#EEB25C" }} />
+              <SearchIcon
+                style={{ fill: "#EEB25C" }}
+                onClick={this.saveSearchWord}
+              />
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>

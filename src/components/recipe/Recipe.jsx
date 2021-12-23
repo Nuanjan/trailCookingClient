@@ -18,10 +18,8 @@ const Recipe = ({ authUser, setRecipe }) => {
     axios
       .request(options)
       .then(function (res) {
-        console.log(res.data.results);
         let id = 1;
         const tempList = res.data.results.map((recipeObj) => {
-          console.log(recipeObj);
           const newObj = {};
           newObj.id = id;
           newObj.recipeName = recipeObj.name;
@@ -37,15 +35,33 @@ const Recipe = ({ authUser, setRecipe }) => {
           return newObj;
         });
         setRecipeList([...tempList]);
-        console.log(tempList);
       })
       .catch(function (error) {
         console.error(error);
       });
   }, []);
+
+  const onClickSearch = (searchWord) => {
+    axios(
+      `https://api.edamam.com/api/recipes/v2?type=public&q=${searchWord}&app_id=44c9ef49&app_key=4651625a63a751dd45bb66221721ff96&imageSize=REGULAR`
+    ).then((res) => {
+      console.log(res.data.hits);
+      const tempList = res.data.hits.map((recipe) => {
+        const newObj = {};
+        newObj.recipeName = recipe.recipe.label;
+        newObj.description = recipe.recipe.ingredients;
+        newObj.link = recipe.recipe.url;
+        newObj.imgUrl = recipe.recipe.image;
+        newObj.totalTime = recipe.recipe.totalTime;
+        return newObj;
+      });
+      setRecipeList([...tempList]);
+      console.log(tempList, "this is new Temp List from search");
+    });
+  };
   return (
     <div>
-      <Navbar />
+      <Navbar onClickSearch={onClickSearch} />
       <DisplayRecipe recipeList={recipeList} setRecipe={setRecipe} />
       <SearchRecipe recipeList={recipeList} setRecipeList={setRecipeList} />
     </div>

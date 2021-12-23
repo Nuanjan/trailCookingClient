@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Drawer from "./Drawer";
 import Toolbar from "./Toolbar";
 
-const Navbar = () => {
+const Navbar = ({ onClickSearch }) => {
   const [left, setLeft] = useState(false);
   const toggleDrawer = () => {
     setLeft(false);
@@ -13,7 +13,11 @@ const Navbar = () => {
   return (
     <div>
       <Drawer openDrawerHandler={openDrawer} />
-      <Toolbar left={left} toggleDrawerHandler={toggleDrawer} />
+      <Toolbar
+        left={left}
+        toggleDrawerHandler={toggleDrawer}
+        onClickSearch={onClickSearch}
+      />
     </div>
   );
 };
