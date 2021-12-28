@@ -3,9 +3,15 @@ import axios from "axios";
 import DisplayRecipe from "./DisplayRecipe";
 import Navbar from "./../navbar/Navbar";
 import SearchRecipe from "./SearchRecipe";
-const Recipe = ({ authUser, setRecipe }) => {
+import { useHistory } from "react-router-dom";
+import userApi from "../api/userApi";
+const Recipe = ({ authUser, setRecipe, currentUser, setCurrentUser }) => {
+  const history = useHistory("/");
   const [recipeList, setRecipeList] = useState([]);
   useEffect(() => {
+    if (!localStorage.getItem("auth")) {
+      history.push("/not-allow");
+    }
     const options = {
       method: "GET",
       url: "https://tasty.p.rapidapi.com/recipes/list",
@@ -35,6 +41,15 @@ const Recipe = ({ authUser, setRecipe }) => {
           return newObj;
         });
         setRecipeList([...tempList]);
+      })
+      .then(() => {
+        userApi
+          .getLoggedInUser()
+          .then((res) => {
+            console.log(res.data, " this is current user");
+            setCurrentUser(res.data);
+          })
+          .catch((err) => console.log(err));
       })
       .catch(function (error) {
         console.error(error);

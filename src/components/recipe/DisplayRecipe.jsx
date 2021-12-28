@@ -25,12 +25,12 @@ const DisplayRecipe = ({ recipeList, setRecipe }) => {
     >
       {recipeList.map((recipe, i) => (
         <Card
+          key={recipe.id}
           sx={{ width: 350 }}
           style={{ margin: "20px" }}
           onClick={() => onRecipeDetail(recipe)}
         >
           <CardMedia
-            key={i}
             component="img"
             height="140"
             image={recipe.imgUrl}

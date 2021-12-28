@@ -13,23 +13,34 @@ const divStyle = {
 const imgDivStyle = {
   width: "100%",
 };
-const RecipeDetail = ({ recipe }) => {
+const RecipeDetail = ({ recipe, currentUser }) => {
+  console.log(currentUser);
+  const getLongDescription = () => {
+    let descriptionString = "";
+    for (const description of recipe.description) {
+      descriptionString += description.display_text + ",";
+    }
+    return descriptionString;
+  };
   const [recipeInfo, setRecipeInfo] = useState({
     recipeName: recipe.recipeName,
-    description: recipe.description[0].display_text,
+    description: getLongDescription(),
     link: recipe.link,
     imgUrl: recipe.imgUrl,
+    user_id: currentUser.id,
   });
+  console.log(currentUser.id, " user id");
   const onSaveRecipe = (e) => {
     e.preventDefault();
     console.log(recipeInfo, " this is recipeInfo from Detail");
-    createRecipe(recipeInfo)
+    createRecipe(recipeInfo, currentUser.id)
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
   };
-  const onChangeInput = (e) => {
-    setRecipeInfo({ ...recipeInfo, [e.target.name]: e.target.value });
-  };
+  // const onChangeInput = (e) => {
+  //   setRecipeInfo({ ...recipeInfo, [e.target.name]: e.target.value });
+  //   console.log(recipeInfo, " this is recipe to put in db");
+  // };
   return (
     <div>
       <Navbar />
@@ -39,8 +50,8 @@ const RecipeDetail = ({ recipe }) => {
         </div>
         <div style={{ padding: "20px" }}>
           <h1>{recipe.recipeName}</h1>
-          {recipe.description.map((text) => (
-            <ul>
+          {recipe.description.map((text, i) => (
+            <ul key={i}>
               {text["display_text"] ? (
                 <li>{text["display_text"]}</li>
               ) : (
@@ -56,39 +67,14 @@ const RecipeDetail = ({ recipe }) => {
         </div>
       </div>
       <div style={{ display: "flex" }}>
-        <form onSubmit={onSaveRecipe}>
-          <input
-            type="hidden"
-            name="recipeName"
-            onChange={onChangeInput}
-            value={recipeInfo.recipeName}
-          />
-          <input
-            type="hidden"
-            name="description"
-            value={recipeInfo.description}
-          />
-          <input
-            type="hidden"
-            onChange={onChangeInput}
-            name="link"
-            value={recipeInfo.link}
-          />
-          <input
-            type="hidden"
-            onChange={onChangeInput}
-            name="imgUrl"
-            value={recipeInfo.imgUrl}
-          />
-          <Button
-            onChange={onChangeInput}
-            variant="contained"
-            type="submit"
-            style={{ marginLeft: "10px", backgroundColor: "#262416" }}
-          >
-            SAVE
-          </Button>
-        </form>
+        <Button
+          onClick={onSaveRecipe}
+          variant="contained"
+          style={{ marginLeft: "10px", backgroundColor: "#262416" }}
+        >
+          SAVE
+        </Button>
+        {/* </form> */}
         <Button
           variant="contained"
           style={{

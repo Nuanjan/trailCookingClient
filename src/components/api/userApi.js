@@ -12,7 +12,16 @@ class userApi {
   }
 
   getLoggedInUser() {
-    return axios.get(API_URL + "me");
+    let token = localStorage.getItem("auth");
+    console.log(" token from storage: ", token);
+    return axios({
+      url: API_URL + "me",
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
   }
 }
 
