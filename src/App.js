@@ -7,6 +7,7 @@ import userApi from "./components/api/userApi";
 import RecipeDetail from "./components/recipe/RecipeDetail";
 import MyRecipe from "./components/recipe/MyRecipe";
 import NotAllow from "./components/utils/NotAllow";
+import Register from "./components/login/Register";
 
 function App() {
   const [authUser, setAuthUser] = useState({});
@@ -22,6 +23,9 @@ function App() {
           <Route exact path="/">
             <Login authUser={authUser} setAuthUser={setAuthUser} />
           </Route>
+          <Route exact path="/register">
+            <Register />
+          </Route>
           <Route exact path="/recipes" authUser={authUser}>
             <Recipe
               setRecipe={setRecipe}
@@ -33,7 +37,7 @@ function App() {
             <RecipeDetail recipe={recipe} currentUser={currentUser} />
           </Route>
           <Route path="/myRecipes">
-            <MyRecipe />
+            <MyRecipe currentUser={currentUser} />
           </Route>
           <Route path="/not-allow">
             <NotAllow />

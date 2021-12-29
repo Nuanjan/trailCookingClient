@@ -77,7 +77,11 @@ const Recipe = ({ authUser, setRecipe, currentUser, setCurrentUser }) => {
   return (
     <div>
       <Navbar onClickSearch={onClickSearch} />
-      <DisplayRecipe recipeList={recipeList} setRecipe={setRecipe} />
+      <DisplayRecipe
+        recipeList={recipeList}
+        setRecipe={setRecipe}
+        currentUser={currentUser}
+      />
       <SearchRecipe recipeList={recipeList} setRecipeList={setRecipeList} />
     </div>
   );

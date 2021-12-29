@@ -5,15 +5,12 @@ import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import InputBase from "@material-ui/core/InputBase";
-import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import { Link } from "react-router-dom";
-import Button from "@mui/material/Button";
 import Logout from "./Logout";
 
 const styles = (theme) => ({
@@ -92,6 +89,7 @@ const headerStyle = {
   fontWeight: 600,
   letterSpacing: "5px",
   color: "#262416",
+  pointer: "cursor",
 };
 class ToolbarComponent extends React.Component {
   state = {
@@ -187,7 +185,16 @@ class ToolbarComponent extends React.Component {
               noWrap
               style={headerStyle}
             >
-              TrailCooking
+              <Link
+                style={{
+                  textDecoration: "none",
+                  padding: "20px",
+                  color: "#262416",
+                }}
+                to={"/recipes"}
+              >
+                TrailCooking
+              </Link>
             </Typography>
             <Link
               style={{ textDecoration: "none", padding: "20px" }}

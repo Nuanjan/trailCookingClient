@@ -2,15 +2,21 @@ import axios from "axios";
 
 const API_URL = "http://localhost:8080/api/recipes/";
 
-//   getUserWithRecipes(user_id) {
-//     return axios.get(API_URL + "user/" + user_id);
-//   }
-//   deleteRecipe(id) {
-//     return axios.delete(API_URL + id);
-//   }
-// }
+export const getUserWithRecipes = (user_id) => {
+  return axios.get(API_URL + "user/" + user_id);
+};
 
-// export default recipeApi;
+export const deleteRecipe = (recipeId) => {
+  let token = localStorage.getItem("auth");
+  return axios({
+    url: API_URL + recipeId,
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
 
 export const createRecipe = (recipeInfo, userId) => {
   let token = localStorage.getItem("auth");

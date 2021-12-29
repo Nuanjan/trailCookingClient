@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import loginImg from "./../../images/login.jpg";
 import { styled } from "@mui/material/styles";
+import RegisterImg from "./../../images/register.jpg";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import userApi from "./../api/userApi";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 const divStyle = {
   width: "100%",
   height: "100vh",
-  backgroundImage: `url(${loginImg})`,
+  backgroundImage: `url(${RegisterImg})`,
   backgroundSize: "120% 100%",
   backgroundPosition: "60%",
   backgroundRepeat: " no-repeat",
@@ -21,16 +21,16 @@ const CssTextField = styled(TextField)({
     color: "#EEB25C",
   },
   "& .MuiInput-underline:after": {
-    borderBottomColor: "white",
+    borderBottomColor: "#262416",
   },
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
-      borderColor: "white",
+      borderColor: "#262416",
       color: "#EEB25C",
     },
     "&:hover fieldset": {
       borderColor: "#90B274",
-      color: "white",
+      color: "#262416",
     },
     "&.Mui-focused fieldset": {
       borderColor: "#90B274",
@@ -51,11 +51,10 @@ const formStyle = {
   alignItems: "center",
 };
 const fontColor = {
-  style: { color: "white" },
+  style: { color: "#262416" },
 };
-const Login = (props) => {
-  const history = useHistory();
-  const { authUser, setAuthUser } = props;
+
+const Register = (props) => {
   const { classes } = props;
   const [user, setUser] = useState({ username: "", password: "" });
   const [error, setError] = useState([]);
@@ -63,15 +62,13 @@ const Login = (props) => {
   const onInputChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
-  const onLoginSubmit = (e) => {
+  const onRegisterSubmit = (e) => {
     e.preventDefault();
     userApi
-      .login(user)
+      .register(user)
       .then((res) => {
         localStorage.setItem("auth", res.data.body.accessToken);
-        setAuthUser(res.data.body);
         console.log(user);
-        history.push("/recipes");
       })
       .catch((err) => {
         setError([...err.response.data.messages]);
@@ -79,7 +76,7 @@ const Login = (props) => {
   };
   return (
     <div style={divStyle}>
-      <form style={formStyle} onSubmit={onLoginSubmit}>
+      <form style={formStyle} onSubmit={onRegisterSubmit}>
         {error.length > 0 &&
           error.map((err) => (
             <p key={err} style={{ color: "red" }}>
@@ -91,22 +88,69 @@ const Login = (props) => {
           name="username"
           value={user.username}
           onChange={onInputChange}
-          label="User Name or E-mail"
+          label="User name"
           id="custom-css-outlined-input"
           InputLabelProps={{
-            style: { color: "white" },
+            style: { color: "#262416" },
           }}
           InputProps={fontColor}
         />
         <CssTextField
           style={{ marginBottom: "20px" }}
-          label="password"
+          name="firstname"
+          value={user.username}
+          onChange={onInputChange}
+          label="First Name"
+          id="custom-css-outlined-input"
+          InputLabelProps={{
+            style: { color: "#262416" },
+          }}
+          InputProps={fontColor}
+        />
+        <CssTextField
+          style={{ marginBottom: "20px" }}
+          name="lastname"
+          value={user.username}
+          onChange={onInputChange}
+          label="Last Name"
+          id="custom-css-outlined-input"
+          InputLabelProps={{
+            style: { color: "#262416" },
+          }}
+          InputProps={fontColor}
+        />
+        <CssTextField
+          style={{ marginBottom: "20px" }}
+          name="email"
+          value={user.username}
+          onChange={onInputChange}
+          label="E-mail"
+          id="custom-css-outlined-input"
+          InputLabelProps={{
+            style: { color: "#262416" },
+          }}
+          InputProps={fontColor}
+        />
+        <CssTextField
+          style={{ marginBottom: "20px" }}
+          label="Password"
           type="password"
           name="password"
           value={user.password}
           onChange={onInputChange}
           id="custom-css-outlined-input"
-          InputLabelProps={{ sx: { color: "white" } }}
+          InputLabelProps={{ sx: { color: "#262416" } }}
+          InputProps={fontColor}
+        />
+        <CssTextField
+          style={{ marginBottom: "20px" }}
+          label="Confirm Password"
+          type="password"
+          name="confirm"
+          value={user.password}
+          onChange={onInputChange}
+          id="custom-css-outlined-input"
+          InputLabelProps={{ sx: { color: "#262416" } }}
           InputProps={fontColor}
         />
         <Button
@@ -114,21 +158,15 @@ const Login = (props) => {
           type="submit"
           style={{
             marginLeft: "10px",
-            backgroundColor: "#90B274",
+            backgroundColor: "#CB8A2D",
             width: "200px",
           }}
         >
-          Sign In
+          Register
         </Button>
-        <div style={{ color: "white", textAlign: "center" }}>
-          <p>or</p>
-          <Link to="/register">
-            <p style={{ color: "white" }}>Register</p>
-          </Link>
-        </div>
       </form>
     </div>
   );
 };
 
-export default Login;
+export default Register;

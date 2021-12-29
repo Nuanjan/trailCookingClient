@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import Navbar from "./../navbar/Navbar";
 import Button from "@mui/material/Button";
 import { Link, useHistory } from "react-router-dom";
-import { createRecipe } from "../api/recipeApi";
+import { onSaveRecipe } from "../utils/onSaveRecipe";
+import { getLongDescription } from "../utils/getLongDescription";
 
 const divStyle = {
   width: "60%",
@@ -15,28 +16,20 @@ const imgDivStyle = {
 };
 const RecipeDetail = ({ recipe, currentUser }) => {
   console.log(currentUser);
-  const getLongDescription = () => {
-    let descriptionString = "";
-    for (const description of recipe.description) {
-      descriptionString += description.display_text + ",";
-    }
-    return descriptionString;
-  };
   const [recipeInfo, setRecipeInfo] = useState({
     recipeName: recipe.recipeName,
-    description: getLongDescription(),
+    description: getLongDescription(recipe),
     link: recipe.link,
     imgUrl: recipe.imgUrl,
     user_id: currentUser.id,
   });
   console.log(currentUser.id, " user id");
-  const onSaveRecipe = (e) => {
+
+  const onSavHandle = (e) => {
     e.preventDefault();
-    console.log(recipeInfo, " this is recipeInfo from Detail");
-    createRecipe(recipeInfo, currentUser.id)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+    onSaveRecipe(recipeInfo, currentUser.id);
   };
+
   // const onChangeInput = (e) => {
   //   setRecipeInfo({ ...recipeInfo, [e.target.name]: e.target.value });
   //   console.log(recipeInfo, " this is recipe to put in db");
@@ -68,7 +61,7 @@ const RecipeDetail = ({ recipe, currentUser }) => {
       </div>
       <div style={{ display: "flex" }}>
         <Button
-          onClick={onSaveRecipe}
+          onClick={(e) => onSavHandle(e)}
           variant="contained"
           style={{ marginLeft: "10px", backgroundColor: "#262416" }}
         >
